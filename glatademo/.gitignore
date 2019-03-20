@@ -1,0 +1,43 @@
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# generated GUI files
+*/R.java
+
+# generated on MAC
+.DS_Store
+
+# generated folder
+bin
+gen
+
+# local
+local.properties
+
+proguard_logs/
+
+# log files
+log*.txt
+
+# archives
+*.gz
+*.tar
+*.zip
+
+# idea
+.idea/
+*.idea
+*.iml
+out/
+
+# Gradle files
+.gradle/
+build/
+gradlew
+gradlew.bat
+captures/
+.externalNativeBuild
