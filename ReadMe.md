@@ -6,24 +6,6 @@ when you have animations with lots of objects and/or large textures where Canvas
 This is an early alpha version and its functionality is quite poor.
 Please, be patient and wait for updates.
 
-## Usage
-
-Add to your root build.gradle:
-```Groovy
-allprojects {
-	repositories {
-		maven { url 'https://jitpack.io' }
-	}
-}
-```
-
-Add the dependency:
-```Groovy
-dependencies {
-	implementation 'com.github.Yalantis:Glata:0.0.1-alpha'
-}
-```
-
 ## How to use this library in your project?
 
 Just add `android.opengl.GLSurfaceView` to the xml layout, you can specify any width and height
@@ -102,7 +84,7 @@ Then you just need to initialize this surfaceView by calling `initSurface` or
     surfaceView.initSurface(context, TestScene())
 ``` 
 
-That's all! Now you have your awesome animation!
+That's all! Now you have your animation!
 
 
 ## Let us know!
