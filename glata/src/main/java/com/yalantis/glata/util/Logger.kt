@@ -1,11 +1,11 @@
 package com.yalantis.glata.util
 
-import timber.log.Timber
+import android.util.Log
 
 class Logger {
 
     fun log(message: String) {
-        Timber.e(message)
+        Log.e("GLata", message)
     }
 
 }

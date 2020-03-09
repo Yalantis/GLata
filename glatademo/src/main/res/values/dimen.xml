@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_width">304dp</dimen>
+    <dimen name="card_height">408dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_double">32dp</dimen>
+    <dimen name="margin_triple">48dp</dimen>
+    <dimen name="margin_one_and_half">24dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="text_header_large">28sp</dimen>
+    <dimen name="text_header">14sp</dimen>
+    <dimen name="text_body">12sp</dimen>
+    <dimen name="text_bottom_margin">36dp</dimen>
+</resources>

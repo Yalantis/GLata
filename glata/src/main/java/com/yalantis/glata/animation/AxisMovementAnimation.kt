@@ -23,22 +23,22 @@ class AxisMovementAnimation(
     private var isInitialized = false
     private var animStartedAt: Long = 0L
 
-    override fun animate(rp: RendererParams, mp: ModelParams, sp: SceneParams) : Boolean {
-        init(rp, mp)
+    override fun animate(rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) : Boolean {
+        init(rendererParams, modelParams)
 
         if (isFinished) return true
 
-        var progress = (rp.currentTimeMillis - animStartedAt) / travelTimeMillis
+        var progress = (rendererParams.currentTimeMillis - animStartedAt) / travelTimeMillis
 
         if (progress >= 1f) {
             checkNextAction()
-            animStartedAt = rp.currentTimeMillis
+            animStartedAt = rendererParams.currentTimeMillis
         } else {
             interpolator?.apply { progress = getInterpolation(progress) }
             currentPos = initialPosition + (destinationPosition - initialPosition) * progress
         }
 
-        mp.transform.setPosition(axis, currentPos)
+        modelParams.transform.setPosition(axis, currentPos)
 
         return isFinished
     }

@@ -9,17 +9,15 @@ import android.opengl.Matrix
 class OrthographicCamera : BaseCamera() {
 
     override fun setProjectionMatrix() {
-        if (viewportMatrix[2] == 0 && viewportMatrix[3] == 0) return
+        if (viewportWidth == 0 && viewportHeight == 0) return
 
-        val w = viewportMatrix[2].toFloat()
-        val h = viewportMatrix[3].toFloat()
-        aspectRatio = w / h
+        aspectRatio = viewportWidth.toFloat() / viewportHeight.toFloat()
 
         val horizontalSize = calculateHorizontalSize(aspectRatio)
         val verticalSize = calculateVerticalSize(aspectRatio)
 
-        val horizontalCenter: Float = 0f
-        val verticalCenter: Float = 0f
+        val horizontalCenter = 0f
+        val verticalCenter = 0f
 
         Matrix.setIdentityM(projectionMatrix, 0)
         Matrix.orthoM(projectionMatrix, 0,

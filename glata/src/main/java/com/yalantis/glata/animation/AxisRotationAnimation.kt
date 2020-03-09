@@ -15,9 +15,9 @@ class AxisRotationAnimation(
 
     constructor(speed: Float, axis: Axis = Axis.Z) : this(speed, axis, 0f, null)
 
-    override fun animate(rp: RendererParams, mp: ModelParams, sp: SceneParams): Boolean {
-        animateSingleAxis(rp, mp, axis, speed)
-        if (axis2 != null) animateSingleAxis(rp, mp, axis2, speed2)
+    override fun animate(rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams): Boolean {
+        animateSingleAxis(rendererParams, modelParams, axis, speed)
+        if (axis2 != null) animateSingleAxis(rendererParams, modelParams, axis2, speed2)
         return true
     }
 

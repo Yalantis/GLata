@@ -20,7 +20,7 @@ class RendererParams(var context: Context) {
     /**
      * Every time the device goes to sleep or the app goes to background, GL context can be
      * lost. We increment version of renderer every time this happens. Then every texture,
-     * shader and virtual buffer will compare it's own version to renderer's version and will
+     * shader and virtual buffer will compare it's own version to renderer's version and
      * recreate itself if versions don't match.
      */
     var version: Int = 0
@@ -36,7 +36,7 @@ class RendererParams(var context: Context) {
      * We measure time passed from last frame to current and store it in a variable.
      * This is helpful when creating animations. Sometimes due to long initialization or switching
      * between apps this time can be too long and animations behave not like you expected. This is
-     * why we clamp this time to some max value. You can change it somewhere in scene initialization
+     * why we clamp this time to some max value. You can change it in scene initialization
      * if you want.
      */
     var maxFrameTime: Long = 150L

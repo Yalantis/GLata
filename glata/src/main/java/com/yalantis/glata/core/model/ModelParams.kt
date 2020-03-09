@@ -66,7 +66,7 @@ class ModelParams {
     }
 
     fun setShaderFrom(another: IModel) {
-        shaderId = another.mp.shaderId
+        shaderId = another.modelParams.shaderId
     }
 
     fun setTexture(rp: RendererParams, textureName: String) {
@@ -78,6 +78,6 @@ class ModelParams {
     }
 
     fun setTextureFrom(another: IModel) {
-        textureId = another.mp.textureId
+        textureId = another.modelParams.textureId
     }
 }

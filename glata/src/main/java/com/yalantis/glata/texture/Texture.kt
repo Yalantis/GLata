@@ -15,7 +15,7 @@ import java.nio.ByteOrder
 
 class Texture(name: String, resId: Int) : ITexture {
 
-    private var name: String = "texName"
+    private val name: String
 
     private var androidId = -1
 
@@ -33,16 +33,20 @@ class Texture(name: String, resId: Int) : ITexture {
         androidId = resId
     }
 
-    constructor(rp: RendererParams, resId: Int) :
-            this(rp.context.resources.getResourceEntryName(resId), resId)
+    constructor(rendererParams: RendererParams, resId: Int) :
+            this(rendererParams.context.resources.getResourceEntryName(resId), resId)
 
-    constructor(rp: RendererParams, name: String) :
-            this(name, rp.context.resources.getIdentifier(rp.pathToDrawable + name, null, null))
+    constructor(rendererParams: RendererParams, name: String) :
+            this(name, rendererParams.context.resources.getIdentifier(
+                    rendererParams.pathToDrawable + name, null, null))
 
-    private fun restoreBitmap(rp: RendererParams): Bitmap? {
+    override fun getName(): String = name
+
+    private fun restoreBitmap(rendererParams: RendererParams): Bitmap? {
         var bitmap: Bitmap? = null
         try {
-            bitmap = BitmapFactory.decodeResource(rp.context.resources, androidId, scaleBitmap(scale))
+            bitmap = BitmapFactory.decodeResource(
+                    rendererParams.context.resources, androidId, scaleBitmap(scale))
         } catch (e: Exception) {
             Logger().log("Texture: Error creating bitmap $name")
             e.printStackTrace()
@@ -57,10 +61,10 @@ class Texture(name: String, resId: Int) : ITexture {
         return options
     }
 
-    override fun createTexture(rp: RendererParams) {
-        if (version == rp.version) return
+    override fun createTexture(rendererParams: RendererParams) {
+        if (version == rendererParams.version) return
 
-        val bitmap = restoreBitmap(rp) ?: return
+        val bitmap = restoreBitmap(rendererParams) ?: return
 
         val textureHandle = IntArray(1)
 
@@ -90,13 +94,13 @@ class Texture(name: String, resId: Int) : ITexture {
 
         } else Logger().log("BitmapTexture: textureHandle is 0!")
 
-        version = rp.version
+        version = rendererParams.version
         cleanup(bitmap)
         openglId = textureHandle[0]
     }
 
-    override fun bind(rp: RendererParams) {
-        if (version != rp.version) createTexture(rp)
+    override fun bind(rendererParams: RendererParams) {
+        if (version != rendererParams.version) createTexture(rendererParams)
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, openglId)
     }

@@ -3,13 +3,14 @@ package com.yalantis.glata.core
 import android.content.Context
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
+import android.view.MotionEvent
 import com.yalantis.glata.core.scene.Scene
 import com.yalantis.glata.primitive.Color
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 class DefaultRenderer(
-        val rp: RendererParams,
+        val rendererParams: RendererParams,
         private var backgroundColor: Color = Color(1f, 1f, 1f, 1f)) : GLSurfaceView.Renderer {
 
     private var scene: Scene? = null
@@ -19,7 +20,7 @@ class DefaultRenderer(
 
     fun setScene(scene: Scene) {
         this.scene = scene
-        scene.onAttach(rp)
+        scene.onAttach(rendererParams)
     }
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
@@ -38,33 +39,35 @@ class DefaultRenderer(
         // lost. We increment version of renderer every time this happens. Then every texture,
         // shader and virtual buffer will compare it's own version to renderer's version and will
         // recreate itself if versions don't match.
-        rp.version++
+        rendererParams.version++
 
         initScene()
 
-        rp.managers.shaderManager.compileShaders(rp)
+        rendererParams.managers.shaderManager.compileShaders(rendererParams)
     }
 
     override fun onDrawFrame(unused: GL10) {
-        rp.updateCurrentTime()
+        rendererParams.updateCurrentTime()
         // Clear the frame before redrawing it
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
         drawScene()
-        rp.managers.shaderManager.resetCurrentShaderId()
-        rp.managers.textureManager.unbindCurrentTexture()
+        rendererParams.managers.shaderManager.resetCurrentShaderId()
+        rendererParams.managers.textureManager.unbindCurrentTexture()
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
-        rp.displayOrientationVersion++
+        rendererParams.displayOrientationVersion++
         GLES20.glViewport(0, 0, width, height)
-        scene?.onSurfaceChanged(rp, width, height)
+        scene?.onSurfaceChanged(rendererParams, width, height)
     }
 
+    fun onTouchEvent(event: MotionEvent): Boolean = scene?.onTouchEvent(event) ?: false
+
     private fun initScene() {
-        scene?.onSurfaceCreated(rp)
+        scene?.onSurfaceCreated(rendererParams)
     }
 
     private fun drawScene() {
-        scene?.onDrawFrame(rp)
+        scene?.onDrawFrame(rendererParams)
     }
 }

@@ -10,9 +10,7 @@ import android.opengl.Matrix
 class PerspectiveCamera : BaseCamera() {
 
     override fun setProjectionMatrix() {
-        val w = viewportMatrix[2].toFloat()
-        val h = viewportMatrix[3].toFloat()
-        aspectRatio = w / h
+        aspectRatio = viewportWidth.toFloat() / viewportHeight.toFloat()
 
         val horizontalSize = calculateHorizontalSize(aspectRatio)
         val verticalSize = calculateVerticalSize(aspectRatio)

@@ -71,7 +71,9 @@ class Vector3() {
     fun setHasNoChanges() {
         hasChanges = false
     }
-}
 
-fun Vector3.distance(a: Vector3, b: Vector3) : Float =
-        ((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)).pow(0.5f)
+    companion object {
+        fun distance(a: Vector3, b: Vector3) : Float =
+                ((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)).pow(0.5f)
+    }
+}
