@@ -1,5 +1,7 @@
-# Glata
+# GLata
 Glata is a library for creating animations for android using OpenGL ES.
+
+![Alt Text](https://github.com/Yalantis/GLata/blob/master/anim.gif)
 
 ## Do I need this?
 Okay, most of the time you don't. But sometimes you need to create an animation with lots of objects and/or large images. And sometimes it becomes too heavy for Canvas or MotionLayout. This is where OpenGL comes to help. Treat this library as a lightweight wrapper on OpenGL. You may not only use functionality which this library provides but also use native OpenGL ES calls and tricks. Usually OpenGL initial setup takes a lot of time and it's always nice when someone did it for you, right?
