@@ -2,7 +2,7 @@ package com.yalantis.glata.util
 
 import android.util.Log
 
-class Logger {
+object Logger {
 
     fun log(message: String) {
         Log.e("GLata", message)

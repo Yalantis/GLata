@@ -45,7 +45,7 @@ class CompressedEtc2Texture(rp: RendererParams, name: String) : ITexture {
             }
 
             loadEtc2Texture(rendererParams)
-        } else Logger().log("BitmapTexture: textureHandle is 0!")
+        } else Logger.log("BitmapTexture: textureHandle is 0!")
 
         version = rendererParams.version
         openglId = textureHandle[0]
@@ -68,7 +68,7 @@ class CompressedEtc2Texture(rp: RendererParams, name: String) : ITexture {
         try {
             inputStream = rp.context.resources.openRawResource(androidId)
         } catch (e: Exception) {
-            Logger().log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
+            Logger.log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
         }
 
         if (inputStream != null) {
@@ -85,7 +85,7 @@ class CompressedEtc2Texture(rp: RendererParams, name: String) : ITexture {
                         tex.data
                 )
             } catch (e: Exception) {
-                Logger().log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
+                Logger.log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
             }
         }
     }

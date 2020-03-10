@@ -246,11 +246,11 @@ object ETC2Util {
             // First check the ETC2 magic sequence
             if (ETC2Magic[0] != header.get(0) && ETC2Magic[1] != header.get(1) && ETC2Magic[2] != header.get(2)
                     && ETC2Magic[3] != header.get(3) && ETC2Magic[4] != header.get(4) && ETC2Magic[5] != header.get(5)) {
-                Logger().log("ETC2 header failed magic sequence check.")
+                Logger.log("ETC2 header failed magic sequence check.")
                 // Check to see if we are ETC1 instead
                 if (ETC1Magic[0] != header.get(0) && ETC1Magic[1] != header.get(1) && ETC1Magic[2] != header.get(2)
                         && ETC1Magic[3] != header.get(3) && ETC1Magic[4] != header.get(4) && ETC1Magic[5] != header.get(5)) {
-                    Logger().log("ETC1 header failed magic sequence check.")
+                    Logger.log("ETC1 header failed magic sequence check.")
                     return false
                 }
             }
@@ -261,7 +261,7 @@ object ETC2Util {
                 ETC1_RGB8_OES, RGB8_ETC2, RGBA8_ETC2_EAC, RGB8_PUNCHTHROUGH_ALPHA1_ETC2, R11_EAC, RG11_EAC, SIGNED_R11_EAC, SIGNED_RG11_EAC -> {
                 }
                 else -> {
-                    Logger().log("ETC2 header failed format check.")
+                    Logger.log("ETC2 header failed format check.")
                     return false
                 }
             }
@@ -273,12 +273,12 @@ object ETC2Util {
 
             // Check the width
             if (encodedWidth < width || encodedWidth - width > 4) {
-                Logger().log("ETC2 header failed width check. Encoded: $encodedWidth Actual: $width")
+                Logger.log("ETC2 header failed width check. Encoded: $encodedWidth Actual: $width")
                 return false
             }
             // Check the height
             if (encodedHeight < height || encodedHeight - height > 4) {
-                Logger().log("ETC2 header failed height check. Encoded: $encodedHeight Actual: $height")
+                Logger.log("ETC2 header failed height check. Encoded: $encodedHeight Actual: $height")
                 return false
             }
 

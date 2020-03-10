@@ -79,7 +79,7 @@ class VertexBuffer() {
         GLES20.glGenBuffers(1, buff, 0)
         handle = buff[0]
 
-        if (handle < 0) Logger().log("Error creating buffer object. Handle is $handle.")
+        if (handle < 0) Logger.log("Error creating buffer object. Handle is $handle.")
 
         buffer?.let{buffer ->
             buffer.position(0)

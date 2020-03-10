@@ -6,7 +6,7 @@ object Utils {
 
     fun clamp(min: Float, max: Float, value: Float) : Float {
         when {
-            min > max -> Logger().log("clamp failed: $min !<= $max")
+            min > max -> Logger.log("clamp failed: $min !<= $max")
             value < min -> return min
             value > max -> return max
         }
@@ -15,7 +15,7 @@ object Utils {
 
     fun clamp(min: Int, max: Int, value: Int) : Int {
         when {
-            min > max -> Logger().log("clamp failed: $min !<= $max")
+            min > max -> Logger.log("clamp failed: $min !<= $max")
             value < min -> return min
             value > max -> return max
         }

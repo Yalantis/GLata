@@ -48,7 +48,7 @@ class Texture(name: String, resId: Int) : ITexture {
             bitmap = BitmapFactory.decodeResource(
                     rendererParams.context.resources, androidId, scaleBitmap(scale))
         } catch (e: Exception) {
-            Logger().log("Texture: Error creating bitmap $name")
+            Logger.log("Texture: Error creating bitmap $name")
             e.printStackTrace()
         }
 
@@ -92,7 +92,7 @@ class Texture(name: String, resId: Int) : ITexture {
                 GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D)
             }
 
-        } else Logger().log("BitmapTexture: textureHandle is 0!")
+        } else Logger.log("BitmapTexture: textureHandle is 0!")
 
         version = rendererParams.version
         cleanup(bitmap)
