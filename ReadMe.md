@@ -1,14 +1,27 @@
 # Glata
-Glata is a library for creating animations for android using OpenGL ES. It can be handy
-when you have animations with lots of objects and/or large textures where Canvas is not fast enough.
+Glata is a library for creating animations for android using OpenGL ES.
 
-## Attention!
-This is an early alpha version and its functionality is quite poor.
-Please, be patient and wait for updates.
+## Do I need this?
+Okay, most of the time you don't. But sometimes you need to create an animation with lots of objects and/or large images. And sometimes it becomes too heavy for Canvas or MotionLayout. This is where OpenGL comes to help. Treat this library as a lightweight wrapper on OpenGL. You may not only use functionality which this library provides but also use native OpenGL ES calls and tricks. Usually OpenGL initial setup takes a lot of time and it's always nice when someone did it for you, right?
 
 ## How to use this library in your project?
+Add jitpack repo in your root build.gradle at the end of repositories:
+```xml
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+And add dependency in your app module
+```xml
+	dependencies {
+	        implementation 'com.github.Yalantis:GLata:0.1.1'
+	}
+```
 
-Just add `android.opengl.GLSurfaceView` to the xml layout, you can specify any width and height
+Now you can add `android.opengl.GLSurfaceView` to the xml layout. You can specify any width and height. Also you can use `MotionableGLSurfaceView` if you need your animation to react to gestures.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -18,15 +31,22 @@ Just add `android.opengl.GLSurfaceView` to the xml layout, you can specify any w
         android:layout_height="match_parent" />
 ```
 
-Now, you have to extend com.yalantis.glata.core.scene.Scene class and override onAttach method.
+Now, you have to extend `Scene` class and override onAttach method.
 This is where the initialization of your animation scene happens. Here you create shaders and
-objects, specify the animations.
+objects, set up camera and specify the animations.
 ```kotlin
-    class TestScene(sp: SceneParams = SceneParams()) : Scene(sp) {
+    class MyScene() : Scene(sp) {
           override fun onAttach(rp: RendererParams) {
                 super.onAttach(rp)
-                rp.managers.shaderManager.add(Shaders.DEFAULT_COLOR_SHADER) 
-                rp.managers.shaderManager.add(Shaders.DEFAULT_TEXTURE_SHADER)
+                rendererParams.managers.shaderManager.apply {
+			add(Shaders.DEFAULT_COLOR_SHADER)
+			add(Shaders.DEFAULT_TEXTURE_SHADER)
+		}
+                sceneParams.camera.apply {
+            		setMaximumVisibleArea(10f, 10f)
+            		setPivot(Align.CENTER)
+            		setProjectionMatrix()
+       		 }
         
                 ...
             }
@@ -34,63 +54,58 @@ objects, specify the animations.
     }
 ```
 
-You have to create a rectangle, specify its color or texture, attach a shader and create animation.
-Currently you can choose only movement, scaling and rotating animations (or several at once and
-wrap them into AnimationList).
+You have to create a rectangle, specify its color or texture (you can use R.drawable... or just pass an image name as a string), attach a shader and create animation.
+Currently you can choose only movement, scale, rotation or texture switching animation (or all at once and
+wrap them into `AnimationList`). Most of the time this is enough but you can extend `IAnimation` and create your own.
 ```kotlin
-    val rect1 = Rectangle.builder()
-                    .setGradientColor(Color(1f, 0f, 0f, 1f), Color(0f, 1f, 0f, 1f),
-                            Color(0f, 0f, 1f, 1f), Color(0.6f, 0.6f, 0.6f, 1f))
-                    .build()
-            rect1.mp.setShader(Shaders.DEFAULT_COLOR_SHADER)
-            rect1.animation = ScalingAnimation(0.8f, 1f, 1000f).apply {
-                isInfinite = true
-                interpolator = AccelerateDecelerateInterpolator()
-            }
-            rect1.mp.transform.position.x = -1.1f
-            children.add(rect1)
-            
-    val rect2 = Rectangle(1f, 1f)
-            rect2.animation = AxisMovementAnimation(Axis.Y, rowHeight, rowHeight + 1.1f, 1000f)
-                    .apply {
-                        isInfinite = true
-                        returnToInitialAfterFinished = true
-                    }
-            rect2.mp.textureId = rp.managers.textureManager.add(Texture(rp, "ava_2"))
-            rect2.mp.setShader(Shaders.DEFAULT_TEXTURE_SHADER)
-            rect2.mp.transform.position.y = rowHeight
-            children.add(rect2)
-```
-
-Now, set up your camera. You can choose vertical or horizontal axis to match glSurfaceView's size and
-define the scale - set the number of units you want to see on this axis. Another axis will
-adjust automatically according to the glSurfaceView's proportions.
-```kotlin
-    override fun onSurfaceChanged(rp: RendererParams, width: Int, height: Int) {
-            super.onSurfaceChanged(rp, width, height)
-            if (width > height) {
-                sp.camera.setVerticalSizeInUnits(3.2f)
-            } else {
-                sp.camera.setHorizontalSizeInUnits(3.2f)
-            }
-            sp.camera.setPivot(Align.CENTER)
-            sp.camera.setProjectionMatrix()
+        val rect1 = Rectangle.builder()
+                .setGradientColor(Color(1f, 0f, 0f, 1f), Color(0f, 1f, 0f, 1f),
+                        Color(0f, 0f, 1f, 1f), Color(0.6f, 0.6f, 0.6f, 1f))
+                .build()
+        rect1.animation = ScalingAnimation(
+                startScalingFrom = 0.8f, 
+                scaleTo = 1f, 
+                scaleTimeMillis = 1000f).apply {
+            isInfinite = true
+            interpolator = AccelerateDecelerateInterpolator()
         }
+        rect1.modelParams.apply {
+            setShader(Shaders.DEFAULT_COLOR_SHADER)
+            transform.position.x = -1f
+        }
+        addChild(rect1)
+            
+        val rect2 = Rectangle
+                .builder()
+                .setTexture(rendererParams.managers.textureManager.add(Texture(rendererParams, "ava_2")))
+                .build()
+        rect2.animation = AxisMovementAnimation(
+                axis = Axis.Y,
+                initialPosition = -1f,
+                destinationPosition = 1f,
+                travelTimeMillis = 1000f).apply {
+                    isInfinite = true
+                    returnToInitialAfterFinished = true
+                }
+        rect2.modelParams.apply {
+            setShader(Shaders.DEFAULT_TEXTURE_SHADER)
+            transform.position.x = 1f
+        }
+        addChild(rect2)
 ```
 
-Then you just need to initialize this surfaceView by calling `initSurface` or 
-`initSurfaceTransparent` and pass there context and your animation scene.
+Then you just need to initialize this surfaceView by calling `initSurface` and pass there context and your animation scene.
 ```kotlin
-    surfaceView.initSurface(context, TestScene())
+    surfaceView.initSurface(context, MyScene())
 ``` 
 
-That's all! Now you have your animation!
+That's all for start. For some complex stuff please check out the demo application.
 
 
 ## Let us know!
 
-We’d be really happy if you sent us links to your projects where you use our component. 
-Just send an email to github@yalantis.com And do let us know if you have any questions or suggestion regarding the animation.
+We’d be really happy if you sent us links to your projects where you use our library. 
+Just send an email to github@yalantis.com and do let us know if you have any questions or suggestions.
 
 ## License
 
