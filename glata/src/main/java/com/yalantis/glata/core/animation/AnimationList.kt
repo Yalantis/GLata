@@ -11,11 +11,12 @@ class AnimationList : IAnimation {
     var removeFromListIfFinished = false
     private var isFinished = false
 
-    override fun animate(rp: RendererParams, mp: ModelParams, sp: SceneParams): Boolean {
+    override fun animate(rendererParams: RendererParams,
+                         modelParams: ModelParams, sceneParams: SceneParams): Boolean {
         var finished = true
 
         for (animation in animations) {
-            animation.animate(rp, mp, sp)
+            animation.animate(rendererParams, modelParams, sceneParams)
 
             if (animation.isFinished()) {
                 if (removeFromListIfFinished) animations.remove(animation)

@@ -27,10 +27,9 @@ class CompressedTextureShader : BaseShader() {
 
         fragmentShader =
                 "precision mediump float; \n" +
-                "uniform sampler2D u_Texture; \n" + // The input texture.
-                "uniform sampler2D u_AlphaTexture; \n" + // The input alpha texture.
-                "uniform float u_MixModifier; \n" +
-                "varying vec2 v_TexCoordinate; \n" + // Interpolated texture coordinate per fragment.
+                "uniform sampler2D u_Texture; \n" +
+                "uniform sampler2D u_AlphaTexture; \n" +
+                "varying vec2 v_TexCoordinate; \n" +
 
                 "void main() { \n" +
                 "		gl_FragColor = texture2D(u_Texture, v_TexCoordinate); \n" +
@@ -38,8 +37,9 @@ class CompressedTextureShader : BaseShader() {
                 "}"
     }
 
-    override fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        setMvpMatrixHandle(mp, sp)
+    override fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        setMvpMatrixHandle(modelParams, sceneParams)
     }
 
     override fun setVariableHandles() {

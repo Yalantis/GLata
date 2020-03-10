@@ -14,21 +14,32 @@ class TextureManager {
 
     fun add(texture: ITexture) : Int {
         nextId++
-        textures[nextId] = texture
-        return nextId
+        val id = nextId
+        textures[id] = texture
+        if (texture.getName().isNotEmpty()) {
+            textureNames[texture.getName()] = id
+        }
+        return id
     }
 
+    fun getId(textureName: String) = textureNames[textureName] ?: -1
+
     fun bind(rp: RendererParams, textureId: Int) {
-        textures[textureId]?.bind(rp)
+//        if (currentTextureId != textureId && currentTextureId != -1) {
+//            textures[currentTextureId]?.unbind()
+//        }
+        textures[textureId]?.let {
+            currentTextureId = textureId
+            it.bind(rp)
+        }
     }
 
     fun unbindTexture(textureId: Int) {
-        if (currentTextureId == 0) return
+        if (currentTextureId == -1) return
 
-        currentTextureId = 0
+        textures[textureId]?.unbind()
 
-        if (textures.containsKey(textureId))
-            textures[textureId]?.unbind()
+        currentTextureId = -1
     }
 
     fun unbindCurrentTexture() {

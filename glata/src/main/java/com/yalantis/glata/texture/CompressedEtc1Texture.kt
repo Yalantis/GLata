@@ -9,7 +9,7 @@ import java.io.InputStream
 
 class CompressedEtc1Texture(rp: RendererParams, name: String) : ITexture {
 
-    private var name: String = "texName"
+    private val name: String
 
     private var openglId: Int = 0
 
@@ -21,8 +21,10 @@ class CompressedEtc1Texture(rp: RendererParams, name: String) : ITexture {
         this.name = name
     }
 
-    override fun createTexture(rp: RendererParams) {
-        if (version == rp.version) return
+    override fun getName(): String = name
+
+    override fun createTexture(rendererParams: RendererParams) {
+        if (version == rendererParams.version) return
 
         val textureHandle = IntArray(1)
 
@@ -42,15 +44,15 @@ class CompressedEtc1Texture(rp: RendererParams, name: String) : ITexture {
                 GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE)
             }
 
-            loadEtc1Texture(rp)
-        } else Logger().log("BitmapTexture: textureHandle is 0!")
+            loadEtc1Texture(rendererParams)
+        } else Logger.log("BitmapTexture: textureHandle is 0!")
 
-        version = rp.version
+        version = rendererParams.version
         openglId = textureHandle[0]
     }
 
-    override fun bind(rp: RendererParams) {
-        if (version != rp.version) createTexture(rp)
+    override fun bind(rendererParams: RendererParams) {
+        if (version != rendererParams.version) createTexture(rendererParams)
 
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, openglId)
     }
@@ -60,13 +62,23 @@ class CompressedEtc1Texture(rp: RendererParams, name: String) : ITexture {
     }
 
     private fun loadEtc1Texture(rp: RendererParams) {
-        val androidId = rp.context.resources.getIdentifier(rp.pathToRaw + name, null, null)
+        val resourceId = rp.context.resources.getIdentifier(rp.pathToRaw + name, null, null)
         var inputStream: InputStream? = null
 
         try {
-            inputStream = rp.context.resources.openRawResource(androidId)
+            inputStream = rp.context.resources.openRawResource(resourceId)
         } catch (e: Exception) {
-            Logger().log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
+            Logger.log("Texture: Error creating Etc1Texture $name: " + e.localizedMessage)
+        }
+
+        inputStream.use {
+            ETC1Util.loadTexture(
+                    GLES20.GL_TEXTURE_2D,
+                    0,
+                    0,
+                    GLES20.GL_RGB,
+                    GLES20.GL_UNSIGNED_BYTE,
+                    inputStream)
         }
 
         if (inputStream != null) {
@@ -79,7 +91,7 @@ class CompressedEtc1Texture(rp: RendererParams, name: String) : ITexture {
                         GLES20.GL_UNSIGNED_BYTE,
                         inputStream)
             } catch (e: Exception) {
-                Logger().log("Texture: Error creating Etc2Texture $name: " + e.localizedMessage)
+                Logger.log("Texture: Error creating Etc1Texture $name: " + e.localizedMessage)
             }
         }
     }

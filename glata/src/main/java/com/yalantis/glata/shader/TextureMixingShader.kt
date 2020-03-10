@@ -41,9 +41,10 @@ class TextureMixingShader : BaseShader() {
                 "}"
     }
 
-    override fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        setMvpMatrixHandle(mp, sp)
-        mp.shaderVars?.let { setTextureMixAmount(it.mixAmount) }
+    override fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        setMvpMatrixHandle(modelParams, sceneParams)
+        modelParams.shaderVars?.let { setTextureMixAmount(it.mixAmount) }
     }
 
     fun setTextureMixAmount(mixAmount: Float) {

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.yalantis.glata.core.MotionableGLSurfaceView
+        android:id="@+id/glsvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_triple"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_adv_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/adv_header"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_header"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <com.yalantis.glatademo.advanced.SnappingHorizontalScrollView
+        android:id="@+id/svCards"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/card_height"
+        android:layout_marginTop="96dp"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/innerGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/card0"
+                layout="@layout/item_card" />
+
+            <include
+                android:id="@+id/card1"
+                layout="@layout/item_card" />
+
+            <include
+                android:id="@+id/card2"
+                layout="@layout/item_card" />
+
+            <include
+                android:id="@+id/card3"
+                layout="@layout/item_card" />
+        </LinearLayout>
+
+    </com.yalantis.glatademo.advanced.SnappingHorizontalScrollView>
+
+    <TextView
+        android:id="@+id/tvDepthAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="104dp"
+        android:layout_marginStart="@dimen/margin_double"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMeters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="@string/adv_meters"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvDepthAmount"
+        app:layout_constraintStart_toEndOf="@id/tvDepthAmount" />
+
+    <TextView
+        android:id="@+id/tvDepthHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:text="@string/adv_depth_header"
+        app:layout_constraintBottom_toTopOf="@id/tvDepthAmount"
+        app:layout_constraintStart_toStartOf="@id/tvDepthAmount" />
+
+    <TextView
+        android:id="@+id/tv10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="10"
+        android:layout_marginStart="@dimen/margin_double"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="20"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv30"
+        app:layout_constraintStart_toEndOf="@id/tv10" />
+
+    <TextView
+        android:id="@+id/tv30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="30"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv40"
+        app:layout_constraintStart_toEndOf="@id/tv20" />
+
+    <TextView
+        android:id="@+id/tv40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="40"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv50"
+        app:layout_constraintStart_toEndOf="@id/tv30" />
+
+    <TextView
+        android:id="@+id/tv50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="50"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv60"
+        app:layout_constraintStart_toEndOf="@id/tv40" />
+
+    <TextView
+        android:id="@+id/tv60"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="60"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv70"
+        app:layout_constraintStart_toEndOf="@id/tv50" />
+
+    <TextView
+        android:id="@+id/tv70"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="70"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv80"
+        app:layout_constraintStart_toEndOf="@id/tv60" />
+
+    <TextView
+        android:id="@+id/tv80"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="80"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv3000"
+        app:layout_constraintStart_toEndOf="@id/tv70" />
+
+    <TextView
+        android:id="@+id/tv3000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_body"
+        android:text="3000"
+        android:layout_marginBottom="@dimen/text_bottom_margin"
+        android:layout_marginEnd="@dimen/margin_double"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

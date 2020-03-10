@@ -78,8 +78,8 @@ class Geometry {
         indexBuffer = IndexBuffer(indices)
     }
 
-    fun prepare(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        if (!mp.isVisible) {
+    fun prepare(rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        if (!modelParams.isVisible) {
             unbindAllBuffers()
             return
         }
@@ -89,33 +89,35 @@ class Geometry {
 
         if (isAlphaBlendingEnabled) {
             setGlOption(GLES20.GL_BLEND, true)
-            applyBlendFunc(mp.blendFuncParams ?: rp.blendFuncParams)
+            applyBlendFunc(modelParams.blendFuncParams ?: rendererParams.blendFuncParams)
         }
 
-        rp.managers.shaderManager.use(rp, mp.shaderId)
+        rendererParams.managers.shaderManager.use(rendererParams, modelParams.shaderId)
     }
 
-    fun draw(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        if (!mp.isVisible) {
+    fun draw(rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        if (!modelParams.isVisible) {
             unbindAllBuffers()
             return
         }
 
-        if (rp.isVboEnabled) {
-            drawVirtualBuffers(rp, mp, sp)
+        if (rendererParams.isVboEnabled) {
+            drawVirtualBuffers(rendererParams, modelParams, sceneParams)
         } else {
-            drawBuffers(rp, mp, sp)
+            drawBuffers(rendererParams, modelParams, sceneParams)
         }
     }
 
-    private fun drawVirtualBuffers(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        if (version != rp.version) initBufferObject(rp)
+    private fun drawVirtualBuffers(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
 
-        val shader = rp.managers.shaderManager.get(mp.shaderId)
+        if (version != rendererParams.version) initBufferObject(rendererParams)
 
-        shader ?: throw RuntimeException("Shader ${mp.shaderId} for ${mp.name} not found")
+        val shader = rendererParams.managers.shaderManager.get(modelParams.shaderId)
 
-        shader.setShaderParams(rp, mp, sp)
+        shader ?: throw RuntimeException("Shader ${modelParams.shaderId} for ${modelParams.name} not found")
+
+        shader.setShaderParams(rendererParams, modelParams, sceneParams)
 
         vertexBuffer?.let {
             it.bind()
@@ -136,10 +138,10 @@ class Geometry {
                 textureCoordBuffer.bind()
                 GLES20.glVertexAttribPointer(shader.aTexCoordinateHandle, TEXTURE_DATA_SIZE_IN_ELEMENTS, GLES20.GL_FLOAT, false, 0, 0)
                 GLES20.glEnableVertexAttribArray(shader.aTexCoordinateHandle)
-                rp.managers.textureManager.bind(rp, mp.textureId)
+                rendererParams.managers.textureManager.bind(rendererParams, modelParams.textureId)
             } ?: throw RuntimeException("Texture coord  buffer is null")
         } else {
-            rp.managers.textureManager.unbindCurrentTexture()
+            rendererParams.managers.textureManager.unbindCurrentTexture()
         }
 
         if (shader.aColorHandle > 0) {
@@ -152,16 +154,18 @@ class Geometry {
 
         indexBuffer?.let { indexBuffer ->
             indexBuffer.bind()
-            GLES20.glDrawElements(mp.renderMode, indexBuffer.size, GLES20.GL_UNSIGNED_SHORT, 0)
+            GLES20.glDrawElements(modelParams.renderMode, indexBuffer.size, GLES20.GL_UNSIGNED_SHORT, 0)
         } ?: throw RuntimeException("Index buffer is null")
 
         unbindAllBuffers()
     }
 
-    private fun drawBuffers(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        val shader = rp.managers.shaderManager.get(mp.shaderId)
-        shader ?: throw RuntimeException("Shader ${mp.shaderId} for ${mp.name} not found")
-        shader.setShaderParams(rp, mp, sp)
+    private fun drawBuffers(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+
+        val shader = rendererParams.managers.shaderManager.get(modelParams.shaderId)
+        shader ?: throw RuntimeException("Shader ${modelParams.shaderId} for ${modelParams.name} not found")
+        shader.setShaderParams(rendererParams, modelParams, sceneParams)
 
         vertexBuffer?.let { vertexBuffer ->
             vertexBuffer.position(0)
@@ -201,10 +205,10 @@ class Geometry {
                         false,
                         TEXTURE_DATA_SIZE_IN_ELEMENTS * textureCoordBuffer.bytesPerElement,
                         textureCoordBuffer.buffer)
-                rp.managers.textureManager.bind(rp, mp.textureId)
-            } ?: throw RuntimeException("TExture coord buffer is null")
+                rendererParams.managers.textureManager.bind(rendererParams, modelParams.textureId)
+            } ?: throw RuntimeException("Texture coord buffer is null")
         } else {
-            rp.managers.textureManager.unbindCurrentTexture()
+            rendererParams.managers.textureManager.unbindCurrentTexture()
         }
 
         if (shader.aColorHandle > 0) {
@@ -225,7 +229,7 @@ class Geometry {
 
         indexBuffer?.let { indexBuffer ->
             indexBuffer.position(0)
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES, indexBuffer.size, GLES20.GL_UNSIGNED_SHORT, indexBuffer.buffer)
+            GLES20.glDrawElements(modelParams.renderMode, indexBuffer.size, GLES20.GL_UNSIGNED_SHORT, indexBuffer.buffer)
         } ?: throw RuntimeException("Index buffer is null")
 
         unbindAllBuffers()
@@ -259,14 +263,14 @@ class Geometry {
         indexBuffer?.allocate()
     }
 
-    fun initBufferObject(rp: RendererParams) {
+    fun initBufferObject(rendererParams: RendererParams) {
         vertexBuffer?.initBuffer()
         textureCoordBuffer?.initBuffer()
         normalBuffer?.initBuffer()
         colorBuffer?.initBuffer()
         indexBuffer?.initBuffer()
 
-        version = rp.version
+        version = rendererParams.version
     }
 
     fun deleteArrays() {

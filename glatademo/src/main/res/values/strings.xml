@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GLataDemo</string>
+
+    <string name="adv_header">Diving Attractions</string>
+    <string name="adv_depth">%d meters</string>
+    <string name="adv_meters">meters</string>
+    <string name="adv_depth_header">Immersion depth</string>
 </resources>

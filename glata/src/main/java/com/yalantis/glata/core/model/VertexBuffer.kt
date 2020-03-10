@@ -77,16 +77,14 @@ class VertexBuffer() {
 
         val buff = IntArray(1)
         GLES20.glGenBuffers(1, buff, 0)
-
         handle = buff[0]
 
-        if (handle < 0) Logger().log("Error creating index buffer object. Handle is $handle.")
+        if (handle < 0) Logger.log("Error creating buffer object. Handle is $handle.")
 
         buffer?.let{buffer ->
             buffer.position(0)
             GLES20.glBindBuffer(renderArrayType, handle)
             GLES20.glBufferData(renderArrayType, size * bytesPerElement, buffer, drawMode)
-
             GLES20.glBindBuffer(renderArrayType, 0)
         } ?: throw RuntimeException("Buffer is null")
     }

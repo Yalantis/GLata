@@ -27,6 +27,11 @@ class Transform {
         position.set(x, y, z)
     }
 
+    fun setPosition(xy: Vector2) {
+        position.x = xy.x
+        position.y = xy.y
+    }
+
     fun setRotation(x: Float, y: Float, z: Float) {
         rotation.set(x, y, z)
     }

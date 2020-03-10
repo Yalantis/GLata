@@ -17,7 +17,7 @@ class FpsCounter {
             frameCount = 0
             startTime = now
 
-            if (logFps) Logger().log("FPS: $fps")
+            if (logFps) Logger.log("FPS: $fps")
         }
 
         return fps

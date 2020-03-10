@@ -40,9 +40,10 @@ class FloatingAlphaTextureShader(
                 "}"
     }
 
-    override fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        setMvpMatrixHandle(mp, sp)
-        mp.shaderVars?.let { setAlpha(it.alpha) }
+    override fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        setMvpMatrixHandle(modelParams, sceneParams)
+        modelParams.shaderVars?.let { setAlpha(it.alpha) }
     }
 
     fun setAlpha(alpha: Float) {

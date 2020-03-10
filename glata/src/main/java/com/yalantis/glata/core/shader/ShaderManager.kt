@@ -54,7 +54,7 @@ class ShaderManager {
 
     fun use(rendererParams: RendererParams, shaderId: Int) {
         if (!shaders.containsKey(shaderId)) {
-            Logger().log("Shader $shaderId not found")
+            Logger.log("Shader $shaderId not found")
         }
 
         //if (shaderId == currentShaderId) return

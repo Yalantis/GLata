@@ -22,9 +22,9 @@ class ScalingAnimation(
 
     var interpolator: Interpolator? = null
 
-    override fun animate(rp: RendererParams, mp: ModelParams, sp: SceneParams): Boolean {
-        init(rp, mp)
-        doAnimate(rp, mp)
+    override fun animate(rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams): Boolean {
+        init(rendererParams, modelParams)
+        doAnimate(rendererParams, modelParams)
 
         return isFinished
     }

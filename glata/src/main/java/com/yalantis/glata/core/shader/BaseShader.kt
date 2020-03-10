@@ -58,7 +58,8 @@ abstract class BaseShader {
 
     protected abstract fun initShaders()
 
-    abstract fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams)
+    abstract fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams)
 
     protected abstract fun setVariableHandles()
 
@@ -136,7 +137,7 @@ abstract class BaseShader {
 
             // If the link failed, delete the program
             if (linkStatus[0] == 0) {
-                Logger().log("Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle))
+                Logger.log("Error compiling program: " + GLES20.glGetProgramInfoLog(programHandle))
                 GLES20.glDeleteProgram(programHandle)
                 programHandle = 0
             }

@@ -49,8 +49,9 @@ class CompressedTextureMixingShader(
                 "}"
     }
 
-    override fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        setMvpMatrixHandle(mp, sp)
+    override fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        setMvpMatrixHandle(modelParams, sceneParams)
     }
 
     fun setTextureMixAmount(mixAmount: Float) {

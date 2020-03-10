@@ -34,8 +34,9 @@ class DefaultColorShader : BaseShader() {
             "}"
     }
 
-    override fun setShaderParams(rp: RendererParams, mp: ModelParams, sp: SceneParams) {
-        setMvpMatrixHandle(mp, sp)
+    override fun setShaderParams(
+            rendererParams: RendererParams, modelParams: ModelParams, sceneParams: SceneParams) {
+        setMvpMatrixHandle(modelParams, sceneParams)
     }
 
     override fun setVariableHandles() {
