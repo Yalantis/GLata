@@ -1,12 +1,19 @@
 # GLata
-Glata is a library for creating animations for android using OpenGL ES.
+GLata is an Android library for creating multi-object and resource-heavy animations using OpenGL for Embedded Systems.
 
 ![Alt Text](https://github.com/Yalantis/GLata/blob/master/anim.gif)
 
-## Do I need this?
-Okay, most of the time you don't. But sometimes you need to create an animation with lots of objects and/or large images. And sometimes it becomes too heavy for Canvas or MotionLayout. This is where OpenGL comes to help. Treat this library as a lightweight wrapper on OpenGL. You may not only use functionality which this library provides but also use native OpenGL ES calls and tricks. Usually OpenGL initial setup takes a lot of time and it's always nice when someone did it for you, right?
+## Why do I need GLata?
+I bet you’re familiar with Canvas, ObjectAnimator, and MotionLayout. These standard Android solutions are undeniably great for creating simple animations. However, they may not always be enough for drawing massive animations with loads of moving objects and/or large images. This may be a task for OpenGL ES.
+However, setting up OpenGL usually takes a lot of time, especially if you’ve never done it before. GLata not only does the initial setup for you but suggests tools to start drawing complex animations right away. These include tools for:
+- Creating a rectangle and applying an image to it
+- Setting up a camera and specifying the visible area 
+- Applying a bunch of shaders including blur and tint
+- Applying basic animations: movement, scaling, rotation, texture switching
+- Using the ETC1 compressed texture format for faster loading
+And one more thing: GLata lets you use native OpenGL ES calls and tricks, which is not usually the case for large graphics frameworks. Consider this library a lightweight wrapper for OpenGL ES and your launching pad for creating complex animations.
 
-## How to use this library in your project?
+## How can I use GLata in my project?
 Add jitpack repo in your root build.gradle at the end of repositories:
 ```xml
 	allprojects {
@@ -58,7 +65,7 @@ objects, set up camera and specify the animations.
 
 You have to create a rectangle, specify its color or texture (you can use R.drawable... or just pass an image name as a string), attach a shader and create animation.
 Currently you can choose only movement, scale, rotation or texture switching animation (or all at once and
-wrap them into `AnimationList`). Most of the time this is enough but you can extend `IAnimation` and create your own.
+wrap them into `AnimationList`). Most of the time this is enough but you can implement an `IAnimation` interface and create your own.
 ```kotlin
         val rect1 = Rectangle.builder()
                 .setGradientColor(Color(1f, 0f, 0f, 1f), Color(0f, 1f, 0f, 1f),
