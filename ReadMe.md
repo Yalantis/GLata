@@ -11,6 +11,7 @@ However, setting up OpenGL usually takes a lot of time, especially if you’ve n
 - Applying a bunch of shaders including blur and tint
 - Applying basic animations: movement, scaling, rotation, texture switching
 - Using the ETC1 compressed texture format for faster loading
+
 And one more thing: GLata lets you use native OpenGL ES calls and tricks, which is not usually the case for large graphics frameworks. Consider this library a lightweight wrapper for OpenGL ES and your launching pad for creating complex animations.
 
 ## How can I use GLata in my project?
