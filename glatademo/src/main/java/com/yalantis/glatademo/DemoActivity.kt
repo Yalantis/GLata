@@ -1,7 +1,7 @@
 package com.yalantis.glatademo
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.yalantis.glata.core.FpsStabilizer
 import com.yalantis.glata.util.initSurface
 import com.yalantis.glatademo.scene.TestScene
